@@ -1,0 +1,35 @@
+Package: CleanFHU
+Title: Data Cleaning and Pipeline Tools for Pregnancy and Mortality Studies
+Version: 0.1.0
+Author: Dr.Fredrick Omondi Onduru
+Maintainer: The package maintainer <fredrickonduru@gmail.com>
+Description: CleanFHU provides a standardised, reproducible workflow for cleaning,
+    classifying, and harmonising pregnancy and maternal/neonatal mortality study data.
+    It wraps common data preparation steps — demographic recoding, clinical variable
+    classification, biomarker thresholds, water/sanitation/energy (WASH) coding, and
+    anemia grading — into composable, well-documented functions so that multi-site
+    PRISMA-aligned studies can share a single pipeline with minimal friction.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.1.0)
+Imports:
+    dplyr (>= 1.1.0),
+    tidyr (>= 1.3.0),
+    forcats (>= 1.0.0),
+    stringr (>= 1.5.0),
+    tidyverse,
+    haven (>= 2.5.0),
+    rlang (>= 1.1.0),
+    cli (>= 3.6.0),
+    labelled (>= 2.13.0)
+Suggests:
+    testthat (>= 3.0.0),
+    tibble,
+    knitr,
+    rmarkdown
+Config/testthat/edition: 3
+URL: https://github.com/OnduruFred/CleanFHU
+BugReports: https://github.com/OnduruFred/CleanFHU/issues
