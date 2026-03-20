@@ -68,7 +68,7 @@ map_facility_level(c("JOOTRH", "Tingwangi Health Centre"))
 
 | Function | Description |
 |---|---|
-| `prisma_pipeline()` | Full enrollment + ANC cleaning pipeline |
+| `prisma_pipeline()` | Full enrollment + ANC + IPC + PNC cleaning pipeline |
 
 ### Demographic classifiers
 
@@ -107,18 +107,6 @@ map_facility_level(c("JOOTRH", "Tingwangi Health Centre"))
 | `derive_thalassemia()` | Any thalassemia from wide `rbc_thala_*` columns |
 
 ---
-
-## Extending to new sites
-
-```r
-# Override the facility map for a Zambia site:
-zambia_map <- c(
-  "UTH Main Hospital"   = "Level 6",
-  "Chongwe RHC"         = "Level 2"
-)
-
-clean_data <- prisma_pipeline(raw_df, facility_map = zambia_map)
-```
 
 ---
 
