@@ -446,6 +446,8 @@ prisma_pipeline <- function(data) {
           crp_lborres,
           agp_lborres,
           transferrin_lborres,
+          folate_rbc_nmoll_lborres,
+          folate_plasma_nmoll_lborres,
           rbc_g6pd_lborres,
           rbc_sickle_lborres,
           contains("rbc_thala_")
@@ -654,7 +656,16 @@ prisma_pipeline <- function(data) {
           trimester == "3rd Trimester" ~ "iron deficient",
         TRUE ~ "none deficient"
       ),
+      serum_folat_def = if_else(folate_plasma_nmoll_lborres < 10, "Yes (<10)", "No"),
+      rbc_folat_les784 = if_else(folate_rbc_nmoll_lborres < 784, "Yes (<784)", "No"),
       inflamation_biom = if_else(crp_lborres > 5 | agp_lborres > 1, "Yes", "No"),
+      inflammation_CRP = if_else(crp_lborres > 5, "Inflammation", "Normal"),
+      inflammation_AGP = if_else(agp_lborres > 1, "Inflammation", "Normal"),
+      iron_def_ferritin_stfr = if_else(
+        ferritin_lborres < 15 | transferrin_lborres > 8.3,
+        "iron deficiency",
+        "none iron deficiency"
+      ),
       iron_def = case_when(
         is.na(ferritin_lborres) | is.na(inflamation_biom) ~ NA_character_,
         (ferritin_lborres < 70 & inflamation_biom == "Yes") ~ "iron deficient",
