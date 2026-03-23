@@ -51,9 +51,15 @@ combines:
 \item{\code{any_anemia_ovl}}{1/0 indicator: ever anaemic across all visits.}
 \item{\code{VitB_12}}{Vitamin B12 status (deficient / insufficient / sufficient).}
 \item{\code{VitA_def}}{Vitamin A status (4-level ordered factor).}
-\item{\code{STFR}}{Soluble transferrin receptor iron status.}
+\item{\code{STFR}}{Soluble transferrin receptor iron status (trimester-adjusted cut-offs).}
 \item{\code{iron_def}}{Ferritin + inflammation-adjusted iron deficiency.}
-\item{\code{inflamation_biom}}{Binary inflammation marker (CRP > 5 or AGP > 1).}
+\item{\code{iron_def_ferritin_stfr}}{Combined ferritin/sTfR iron deficiency flag (no inflammation adjustment): deficient if ferritin < 15 µg/L or sTfR > 8.3 mg/L.}
+\item{\code{inflamation_biom}}{Combined binary inflammation marker: \code{"Yes"} if CRP > 5 mg/L or AGP > 1 g/L.}
+\item{\code{inflammation_CRP}}{CRP-only inflammation flag: \code{"Inflammation"} (> 5 mg/L) or \code{"Normal"}.}
+\item{\code{inflammation_AGP}}{AGP-only inflammation flag: \code{"Inflammation"} (> 1 g/L) or \code{"Normal"}.}
+\item{\code{serum_folat_def}}{Serum/plasma folate deficiency: \code{"Yes (<10)"} if < 10 nmol/L.}
+\item{\code{rbc_folat_les784}}{RBC folate deficiency: \code{"Yes (<784)"} if < 784 nmol/L.}
+\item{\code{iodine_def}}{Iodine excess flag: \code{"Yes (>43.5 ug/L)"} if UIC > 42.5 µg/L.}
 \item{\code{G6PD}}{G6PD enzyme activity classification.}
 \item{\code{sickle_cell}}{Raw sickle cell field (passed through).}
 \item{\code{thalassemia}}{Any thalassemia indicator derived from \verb{rbc_thala_*} columns.}

@@ -214,6 +214,146 @@ classify_iron_ferritin <- function(ferritin, crp, agp) {
 }
 
 
+# ------------------------------------------------------------
+#  Folate
+# ------------------------------------------------------------
+
+#' Classify serum (plasma) folate status
+#'
+#' Flags folate deficiency using a plasma folate threshold of < 10 nmol/L,
+#' consistent with WHO recommendations for pregnant women.
+#'
+#' @param folate_plasma Numeric vector of plasma folate in nmol/L
+#'   (e.g. `folate_plasma_nmoll_lborres`).
+#'
+#' @return A character vector: `"Yes (<10)"` or `"No"`.
+#'
+#' @examples
+#' classify_serum_folate(c(7, 12, NA))
+#'
+#' @export
+classify_serum_folate <- function(folate_plasma) {
+  dplyr::if_else(folate_plasma < 10, "Yes (<10)", "No")
+}
+
+
+#' Classify red blood cell (RBC) folate status
+#'
+#' Flags RBC folate deficiency using a threshold of < 784 nmol/L,
+#' reflecting tissue folate stores.
+#'
+#' @param folate_rbc Numeric vector of RBC folate in nmol/L
+#'   (e.g. `folate_rbc_nmoll_lborres`).
+#'
+#' @return A character vector: `"Yes (<784)"` or `"No"`.
+#'
+#' @examples
+#' classify_rbc_folate(c(600, 900, NA))
+#'
+#' @export
+classify_rbc_folate <- function(folate_rbc) {
+  dplyr::if_else(folate_rbc < 784, "Yes (<784)", "No")
+}
+
+
+# ------------------------------------------------------------
+#  Inflammation (component markers)
+# ------------------------------------------------------------
+
+#' Classify CRP-based inflammation
+#'
+#' Flags systemic inflammation using a C-reactive protein threshold of > 5 mg/L.
+#'
+#' @param crp Numeric vector of CRP in mg/L (e.g. `crp_lborres`).
+#'
+#' @return A character vector: `"Inflammation"` or `"Normal"`.
+#'
+#' @examples
+#' classify_inflammation_crp(c(2, 8, NA))
+#'
+#' @export
+classify_inflammation_crp <- function(crp) {
+  dplyr::if_else(crp > 5, "Inflammation", "Normal")
+}
+
+
+#' Classify AGP-based inflammation
+#'
+#' Flags systemic inflammation using an alpha-1-acid glycoprotein threshold
+#' of > 1 g/L.
+#'
+#' @param agp Numeric vector of AGP in g/L (e.g. `agp_lborres`).
+#'
+#' @return A character vector: `"Inflammation"` or `"Normal"`.
+#'
+#' @examples
+#' classify_inflammation_agp(c(0.8, 1.5, NA))
+#'
+#' @export
+classify_inflammation_agp <- function(agp) {
+  dplyr::if_else(agp > 1, "Inflammation", "Normal")
+}
+
+
+# ------------------------------------------------------------
+#  Combined ferritin + sTfR iron deficiency
+# ------------------------------------------------------------
+
+#' Classify iron deficiency using ferritin and sTfR combined (no inflammation adjustment)
+#'
+#' A simpler combined iron deficiency flag that does **not** apply an
+#' inflammation correction. Iron deficiency is present if ferritin < 15 µg/L
+#' **or** sTfR > 8.3 mg/L.
+#'
+#' Use [classify_iron_ferritin()] instead when CRP/AGP values are available
+#' for inflammation adjustment.
+#'
+#' @param ferritin Numeric vector of serum ferritin in µg/L.
+#' @param stfr Numeric vector of soluble transferrin receptor in mg/L.
+#'
+#' @return A character vector: `"iron deficiency"` or `"none iron deficiency"`.
+#'
+#' @examples
+#' classify_iron_ferritin_stfr(
+#'   ferritin = c(10, 20, 30),
+#'   stfr     = c(5,  9,  7)
+#' )
+#'
+#' @export
+classify_iron_ferritin_stfr <- function(ferritin, stfr) {
+  dplyr::if_else(
+    ferritin < 15 | stfr > 8.3,
+    "iron deficiency",
+    "none iron deficiency"
+  )
+}
+
+
+# ------------------------------------------------------------
+#  Iodine
+# ------------------------------------------------------------
+
+#' Classify urinary iodine concentration (UIC) for iodine excess / deficiency
+#'
+#' Flags iodine excess using a urinary iodine threshold of > 42.5 µg/L
+#' (note: label displays "> 43.5 µg/L" to match the original study coding).
+#' Values at or below the threshold are returned as `"No"`.
+#'
+#' @param iodine Numeric vector of urinary iodine concentration in µg/L
+#'   (e.g. `iodine_lborres`).
+#'
+#' @return A character vector: `"Yes (>43.5 ug/L)"` or `"No"`.
+#'
+#' @examples
+#' classify_iodine(c(30, 50, NA))
+#'
+#' @export
+classify_iodine <- function(iodine) {
+  dplyr::if_else(iodine > 43.5, "Yes (>43.5 ug/L)", "No")
+}
+
+
+# ------------------------------------------------------------
 #' Classify G6PD enzyme activity
 #'
 #' @param g6pd Numeric vector of G6PD activity in U/gHb.

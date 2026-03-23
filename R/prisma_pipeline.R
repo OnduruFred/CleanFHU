@@ -44,9 +44,15 @@
 #'   \item{`any_anemia_ovl`}{1/0 indicator: ever anaemic across all visits.}
 #'   \item{`VitB_12`}{Vitamin B12 status (deficient / insufficient / sufficient).}
 #'   \item{`VitA_def`}{Vitamin A status (4-level ordered factor).}
-#'   \item{`STFR`}{Soluble transferrin receptor iron status.}
+#'   \item{`STFR`}{Soluble transferrin receptor iron status (trimester-adjusted cut-offs).}
 #'   \item{`iron_def`}{Ferritin + inflammation-adjusted iron deficiency.}
-#'   \item{`inflamation_biom`}{Binary inflammation marker (CRP > 5 or AGP > 1).}
+#'   \item{`iron_def_ferritin_stfr`}{Combined ferritin/sTfR iron deficiency flag (no inflammation adjustment): deficient if ferritin < 15 µg/L or sTfR > 8.3 mg/L.}
+#'   \item{`inflamation_biom`}{Combined binary inflammation marker: `"Yes"` if CRP > 5 mg/L or AGP > 1 g/L.}
+#'   \item{`inflammation_CRP`}{CRP-only inflammation flag: `"Inflammation"` (> 5 mg/L) or `"Normal"`.}
+#'   \item{`inflammation_AGP`}{AGP-only inflammation flag: `"Inflammation"` (> 1 g/L) or `"Normal"`.}
+#'   \item{`serum_folat_def`}{Serum/plasma folate deficiency: `"Yes (<10)"` if < 10 nmol/L.}
+#'   \item{`rbc_folat_les784`}{RBC folate deficiency: `"Yes (<784)"` if < 784 nmol/L.}
+#'   \item{`iodine_def`}{Iodine excess flag: `"Yes (>43.5 ug/L)"` if UIC > 42.5 µg/L.}
 #'   \item{`G6PD`}{G6PD enzyme activity classification.}
 #'   \item{`sickle_cell`}{Raw sickle cell field (passed through).}
 #'   \item{`thalassemia`}{Any thalassemia indicator derived from `rbc_thala_*` columns.}
@@ -446,6 +452,7 @@ prisma_pipeline <- function(data) {
           crp_lborres,
           agp_lborres,
           transferrin_lborres,
+          iodine_lborres,
           folate_rbc_nmoll_lborres,
           folate_plasma_nmoll_lborres,
           rbc_g6pd_lborres,
@@ -666,6 +673,7 @@ prisma_pipeline <- function(data) {
         "iron deficiency",
         "none iron deficiency"
       ),
+      iodine_def = if_else(iodine_lborres > 43.5, "Yes (>43.5 ug/L)", "No"),
       iron_def = case_when(
         is.na(ferritin_lborres) | is.na(inflamation_biom) ~ NA_character_,
         (ferritin_lborres < 70 & inflamation_biom == "Yes") ~ "iron deficient",
