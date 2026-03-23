@@ -600,36 +600,36 @@ prisma_pipeline <- function(data) {
     ## --- dplyr::mutate anemia by trimester
     dplyr::mutate(
       ##--- Incooperate trimester variance
-      cbc_hb_lborres = coalesce(cbc_hb_lborres, hb_poc_lborres),
+      cbc_poc_hb_lborres = coalesce(cbc_hb_lborres, hb_poc_lborres),
       any_mild = if_else(
-        trimester == "2nd Trimester" & between(cbc_hb_lborres, 9.5, 10.4),
+        trimester == "2nd Trimester" & between(hb_poc_lborres, 9.5, 10.4),
         "Yes",
         "No"
       ),
       any_moderate = if_else(
-        trimester == "2nd Trimester" & between(cbc_hb_lborres, 7, 9.4),
+        trimester == "2nd Trimester" & between(hb_poc_lborres, 7, 9.4),
         "Yes",
         "No"
       ),
-      any_severe = if_else(cbc_hb_lborres < 7, "Yes", "No"),
+      any_severe = if_else(hb_poc_lborres < 7, "Yes", "No"),
       any_anemia = if_else(
-        trimester == "2nd Trimester" & cbc_hb_lborres < 10.5,
+        trimester == "2nd Trimester" & hb_poc_lborres < 10.5,
         "Yes",
         "No"
       ),
 
       any_mild = if_else(
-        trimester != "2nd Trimester" & between(cbc_hb_lborres, 10, 10.9),
+        trimester != "2nd Trimester" & between(hb_poc_lborres, 10, 10.9),
         "Yes",
         any_mild
       ),
       any_moderate = if_else(
-        trimester != "2nd Trimester" & between(cbc_hb_lborres, 7, 9.9),
+        trimester != "2nd Trimester" & between(hb_poc_lborres, 7, 9.9),
         "Yes",
         any_moderate
       ),
       any_anemia = if_else(
-        trimester != "2nd Trimester" & cbc_hb_lborres < 11,
+        trimester != "2nd Trimester" & hb_poc_lborres < 11,
         "Yes",
         any_anemia
       ),
