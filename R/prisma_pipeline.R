@@ -663,7 +663,7 @@ prisma_pipeline <- function(data) {
           trimester == "3rd Trimester" ~ "iron deficient",
         TRUE ~ "none deficient"
       ),
-      serum_folat_def = if_else(folate_plasma_nmoll_lborres < 10, "Yes (<10)", "No"),
+      serum_folat_def = if_else(folate_plasma_nmoll_lborres < 6.8, "Yes (<6.8)", "No"),
       rbc_folat_les784 = if_else(folate_rbc_nmoll_lborres < 784, "Yes (<784)", "No"),
       inflamation_biom = if_else(crp_lborres > 5 | agp_lborres > 1, "Yes", "No"),
       inflammation_CRP = if_else(crp_lborres > 5, "Inflammation", "Normal"),

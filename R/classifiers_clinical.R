@@ -233,7 +233,7 @@ classify_iron_ferritin <- function(ferritin, crp, agp) {
 #'
 #' @export
 classify_serum_folate <- function(folate_plasma) {
-  dplyr::if_else(folate_plasma < 10, "Yes (<10)", "No")
+  dplyr::if_else(folate_plasma < 6.8, "Yes (<6.8)", "No")
 }
 
 
